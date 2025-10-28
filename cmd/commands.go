@@ -60,6 +60,20 @@ func Execute() error {
 		task.SaveTasks("tasks.json", tasks)
 		fmt.Println("Completed task ID:", id)
 
+	case "uncomplete":
+		if len(args) < 2 {
+			fmt.Println("Usage: todo-cli complete <task id>")
+			return nil
+		}
+		id, _ := strconv.Atoi(args[1])
+		for i, t := range tasks {
+			if t.ID == id {
+				tasks[i].Completed = false
+			}
+		}
+		task.SaveTasks("tasks.json", tasks)
+		fmt.Println("Uncompleted task ID:", id)
+
 	case "delete":
 		if len(args) < 2 {
 			fmt.Println("Usage: todo-cli delete <task ID>")

@@ -19,7 +19,7 @@
         "id": 3,
         "name": "poop",
         "type": "",
-        "completed": true,
+        "completed": false,
         "date_started": "2025-10-28T22:13:14.101880518Z",
         "date_completed": "2025-10-28T22:15:51.138316066Z"
     }
