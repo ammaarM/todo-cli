@@ -8,6 +8,13 @@ import (
 	"todo-cli/task"
 )
 
+func validateTaskID(id int, tasks []task.Task) error {
+	if id < 1 || id > len(tasks) {
+		return fmt.Errorf("task ID is not valid")
+	}
+	return nil
+}
+
 func Execute() error {
 	args := os.Args[1:]
 	if len(args) < 1 {
@@ -37,6 +44,11 @@ func Execute() error {
 		}
 
 		id, _ := strconv.Atoi(args[1])
+		if err := validateTaskID(id, tasks); err != nil {
+			fmt.Println(err)
+			return nil
+		}
+
 		for i, t := range tasks {
 			if t.ID == id {
 				tasks[i].Completed = true
@@ -71,6 +83,11 @@ func Execute() error {
 			return nil
 		}
 		id, _ := strconv.Atoi(args[1])
+		if err := validateTaskID(id, tasks); err != nil {
+			fmt.Println(err)
+			return nil
+		}
+
 		for i, t := range tasks {
 			if t.ID == id {
 				tasks[i].Completed = true
@@ -86,6 +103,11 @@ func Execute() error {
 			return nil
 		}
 		id, _ := strconv.Atoi(args[1])
+		if err := validateTaskID(id, tasks); err != nil {
+			fmt.Println(err)
+			return nil
+		}
+
 		for i, t := range tasks {
 			if t.ID == id {
 				tasks[i].Completed = false
@@ -100,6 +122,11 @@ func Execute() error {
 			return nil
 		}
 		id, _ := strconv.Atoi(args[1])
+		if err := validateTaskID(id, tasks); err != nil {
+			fmt.Println(err)
+			return nil
+		}
+
 		for i := range tasks {
 			if tasks[i].ID == id {
 				tasks = append(tasks[:i], tasks[i+1:]...)
