@@ -30,6 +30,26 @@ func Execute() error {
 			fmt.Printf("[%s] %d: %s (Type: %s)\n", status, t.ID, t.Name, t.Type)
 		}
 
+	case "get":
+		if len(args) < 2 {
+			fmt.Println("Usage: todo-cli add <task id>")
+			return nil
+		}
+
+		id, _ := strconv.Atoi(args[1])
+		for i, t := range tasks {
+			if t.ID == id {
+				tasks[i].Completed = true
+				tasks[i].DateCompleted = time.Now()
+
+				status := " "
+				if t.Completed {
+					status = "x"
+				}
+				fmt.Printf("[%s] \n %d: \n %s \n Type: %s \n Date Started: %s \n Date Completed: %s \n", status, t.ID, t.Name, t.Type, t.DateStarted, t.DateCompleted)
+			}
+		}
+
 	case "add":
 		if len(args) < 2 {
 			fmt.Println("Usage: todo-cli add <task name>")
