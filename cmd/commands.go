@@ -18,7 +18,7 @@ func validateTaskID(id int, tasks []task.Task) error {
 func Execute() error {
 	args := os.Args[1:]
 	if len(args) < 1 {
-		fmt.Println("Usage: todo-cli [list|add|complete|delete]")
+		fmt.Println("Usage: todoctl [command] [arguments]. Use --help or -h for more information.")
 		return nil
 	}
 
@@ -34,6 +34,7 @@ func Execute() error {
 			if t.Completed {
 				status = "x"
 			}
+			fmt.Println("--- Your Tasks ---")
 			fmt.Printf("[%s] %d: %s (Type: %s)\n", status, t.ID, t.Name, t.Type)
 		}
 
@@ -135,9 +136,17 @@ func Execute() error {
 		}
 		task.SaveTasks("tasks.json", tasks)
 		fmt.Println("Deleted:", id)
-
+	case "--help", "-h":
+		fmt.Println("Usage: todoctl [command] [arguments]")
+		fmt.Println("Commands:")
+		fmt.Println("  list                  Display all tasks")
+		fmt.Println("  add <task name>       Add a new task")
+		fmt.Println("  complete <task id>    Mark a task as completed")
+		fmt.Println("  uncomplete <task id>  Mark a task as not completed")
+		fmt.Println("  delete <task id>      Delete a task")
+		fmt.Println("  --help, -h            Show this help message")
 	default:
-		fmt.Println("Unknown command:", args[0])
+		fmt.Println("todoctl:", args[0], "is not a command. See 'todoctl --help'")
 	}
 
 	return nil
