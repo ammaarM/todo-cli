@@ -29,13 +29,33 @@ func Execute() error {
 
 	switch args[0] {
 	case "list":
-		for _, t := range tasks {
-			status := " "
-			if t.Completed {
-				status = "x"
+		fmt.Println("--- Your Tasks ---")
+		if len(args) > 1 && args[1] == "completed" {
+			fmt.Println("Completed Tasks:")
+			for _, t := range tasks {
+				if t.Completed {
+					status := "x"
+					fmt.Printf("[%s] %d: %s (Type: %s)\n", status, t.ID, t.Name, t.Type)
+				}
 			}
-			fmt.Println("--- Your Tasks ---")
-			fmt.Printf("[%s] %d: %s (Type: %s)\n", status, t.ID, t.Name, t.Type)
+			return nil
+		} else if len(args) > 1 && args[1] == "uncompleted" {
+			fmt.Println("Uncompleted Tasks:")
+			for _, t := range tasks {
+				if !t.Completed {
+					status := " "
+					fmt.Printf("[%s] %d: %s (Type: %s)\n", status, t.ID, t.Name, t.Type)
+				}
+			}
+			return nil
+		} else {
+			for _, t := range tasks {
+				status := " "
+				if t.Completed {
+					status = "x"
+				}
+				fmt.Printf("[%s] %d: %s (Type: %s)\n", status, t.ID, t.Name, t.Type)
+			}
 		}
 
 	case "get":
@@ -139,12 +159,12 @@ func Execute() error {
 	case "--help", "-h":
 		fmt.Println("Usage: todoctl [command] [arguments]")
 		fmt.Println("Commands:")
-		fmt.Println("  list                  Display all tasks")
-		fmt.Println("  add <task name>       Add a new task")
-		fmt.Println("  complete <task id>    Mark a task as completed")
-		fmt.Println("  uncomplete <task id>  Mark a task as not completed")
-		fmt.Println("  delete <task id>      Delete a task")
-		fmt.Println("  --help, -h            Show this help message")
+		fmt.Println("  list <optional: completed/uncompleted>	Display all tasks")
+		fmt.Println("  add <task name>        					Add a new task")
+		fmt.Println("  complete <task id>                       Mark a task as completed")
+		fmt.Println("  uncomplete <task id>                     Mark a task as not completed")
+		fmt.Println("  delete <task id>                         Delete a task")
+		fmt.Println("  --help, -h                               Show this help message")
 	default:
 		fmt.Println("todoctl:", args[0], "is not a command. See 'todoctl --help'")
 	}
