@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -22,9 +23,9 @@ func Execute() error {
 		return nil
 	}
 
-	tasks, err := task.LoadTasks("tasks.json")
+	tasks, filename, err := task.LoadTasks()
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
 	switch args[0] {
@@ -95,7 +96,7 @@ func Execute() error {
 			DateStarted: time.Now(),
 		}
 		tasks = append(tasks, newTask)
-		task.SaveTasks("tasks.json", tasks)
+		task.SaveTasks(filename, tasks)
 		fmt.Println("Added:", name)
 
 	case "complete":
@@ -115,7 +116,7 @@ func Execute() error {
 				tasks[i].DateCompleted = time.Now()
 			}
 		}
-		task.SaveTasks("tasks.json", tasks)
+		task.SaveTasks(filename, tasks)
 		fmt.Println("Completed task ID:", id)
 
 	case "uncomplete":
@@ -134,7 +135,7 @@ func Execute() error {
 				tasks[i].Completed = false
 			}
 		}
-		task.SaveTasks("tasks.json", tasks)
+		task.SaveTasks(filename, tasks)
 		fmt.Println("Uncompleted task ID:", id)
 
 	case "delete":
@@ -154,7 +155,7 @@ func Execute() error {
 				break
 			}
 		}
-		task.SaveTasks("tasks.json", tasks)
+		task.SaveTasks(filename, tasks)
 		fmt.Println("Deleted:", id)
 	case "--help", "-h":
 		fmt.Println("Usage: todoctl [command] [arguments]")
